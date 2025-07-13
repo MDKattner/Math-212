@@ -1,49 +1,13 @@
 var ptx_lunr_search_style = "textbook";
 var ptx_lunr_docs = [
 {
-  "id": "shorttitlelowercase-2",
+  "id": "transformations-and-eigenvalues",
   "level": "1",
-  "url": "shorttitlelowercase-2.html",
-  "type": "Front Matter",
-  "number": "",
-  "title": "Front Matter",
-  "body": "  Michael Kattner    This is the abstract.   "
-},
-{
-  "id": "section-1",
-  "level": "1",
-  "url": "section-1.html",
+  "url": "transformations-and-eigenvalues.html",
   "type": "Section",
   "number": "1",
-  "title": "My First Section",
-  "body": " My First Section   Some words    My First Subsection  Some more words  foo   A frog   A nice-looking frog with a longish description.    Bar:   "
-},
-{
-  "id": "subsection-1-4",
-  "level": "2",
-  "url": "section-1.html#subsection-1-4",
-  "type": "Figure",
-  "number": "1.1",
-  "title": "",
-  "body": " A frog   A nice-looking frog with a longish description.   "
-},
-{
-  "id": "section-2",
-  "level": "1",
-  "url": "section-2.html",
-  "type": "Section",
-  "number": "2",
-  "title": "My Additional Section",
-  "body": " My Additional Section  foo   The graph made by TikZ   A 5-cycle     bar  "
-},
-{
-  "id": "figure-tikz-example-diagram",
-  "level": "2",
-  "url": "section-2.html#figure-tikz-example-diagram",
-  "type": "Figure",
-  "number": "2.1",
-  "title": "",
-  "body": " The graph made by TikZ   A 5-cycle    "
+  "title": "Transformations and Eigenvalues",
+  "body": " Transformations and Eigenvalues   In order to avoid errors, run all cells in order.   Here is definition of a sage function that shows a visualization of a transformation matrix as the input vectors in blue transform into the output vectors in red. Run the cell and enter your matrix in the next cell.   Define a matrix , by editing the code block , to visualize as a transformation. It will take a while to render, don not run the cell twice in order to avoid restarting the computations.   This function visualizes a transformation along with its eigenvectors and eigenspaces, both shown in green.    This sage block creates an interactive function where your manipulation of the matrix occurs immediately. The transformed basis vectors are shown as red arrows.   "
 }
 ]
 
