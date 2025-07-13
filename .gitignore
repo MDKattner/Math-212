@@ -57,6 +57,8 @@ ehthumbs_vista.db
 # Don't include VSCode generated files
 .vscode
 *.code-workspace
+Pipfile
+Pipfile.lock
 
 # Don't inlucde SublimeText files
 # Cache files for Sublime Text

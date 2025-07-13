@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="change-of-basis" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Change of Basis</title>
+    <p>This interactive block shows a vector in standard basis, in blue, and a new vector, in red, made by the basis vectors you define.</p>
+    <sage>
+        <input>
+            @interact
+            def _(a=slider(vmin=-5, vmax=5, default=1, step_size=1/2),
+                c=slider(vmin=-5, vmax=5, default=0, step_size=1/2),
+                b=slider(vmin=-5, vmax=5, default=0, step_size=1/2),
+                d=slider(vmin=-5, vmax=5, default=1, step_size=1/2),
+                x=slider(vmin=-5, vmax=5, default=1, step_size=1/2),
+                y=slider(vmin=-5, vmax=5, default=1, step_size=1/2)):
+                T = matrix(2,2, [a,b,c,d])
+                %display latex
+                show("Basis vectors: ", T.columns()[0], ", ", T.columns()[1])
+                T_sym = matrix(2,2, [var('a'),var('b'),var('c'),var('d')])
+                vec = matrix([[x],[y]])
+                show(T_sym,matrix([[var('x')],[var('y')]]), '=', matrix([[var('u')],[var('v')]]), ", ", T,vec, '=', T*vec)
+                %display plain
+                show(
+                    graphics_array([plot((vec).columns()[0], color='blue', gridlines=True, axes_labels=['$x$', '$y$']),
+                                    plot((T*vec).columns()[0], color='red', gridlines=True, axes_labels=['$u$', '$v$'])]), figsize=[5, 5]
+                )
+        </input>
+    </sage>
+</section>

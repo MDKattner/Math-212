@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="transformations-and-eigenvalues" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Transformations and Eigenvalues</title>
+  <introduction>
+    <p>In order to avoid errors, run all cells in order.</p>
+  </introduction>
+    <p>Here is definition of a sage function that shows a visualization of a transformation matrix as the input vectors in blue transform into the output vectors in red. Run the cell and enter your matrix in the next cell.</p>
+    <sage>
+        <input>
+        def Vis2D(T):
+            if T.dimensions() != (2,2): raise Exception('Input must be a 2x2 matrix') #Tests for an appropriate matrix
+    
+            t = var('t') # Symbolic variable for parametric_plot
+            V = matrix([[n1, n2] for n1 in range(-5,6) for n2 in range(-5,6)]).transpose() #Creates a matrix of the vectors, as columns, undergoing transformation, these will be represented as dots
+            I = identity_matrix(2) 
+            I_plot = list_plot(V.columns(), figsize=6)
+            # Display the numeric info about the transformation
+            %display latex
+            show(var('T'), " = ",T)
+            %display plain
+    
+            T = T - I
+            Frames = [ # All frames of the animation are collected into a list
+            I_plot + list_plot(((T*(n/30) + I)*V).columns(), color='red', ymin=-5, ymax=5, xmin=-5, xmax=5) for n in range(31)
+            ]
+
+            Frames = Frames + [Frames[-1]] * 16 # Padding extra end frames to make the animation stick to view the end of the transformation
+    
+            GIF = animate(Frames)
+            GIF.show(delay=10)
+        </input>
+    </sage>
+    <p> Define a matrix <m>M</m>, by editing the code block , to visualize as a transformation. It will take a while to render, don not run the cell twice in order to avoid restarting the computations.</p>
+    <sage>
+        <input>
+            M = matrix([
+                    [1, 0],
+                    [0, 1]
+                    ])
+            Vis2D(M)
+        </input>
+    </sage>
+    <p>This function visualizes a transformation along with its eigenvectors and eigenspaces, both shown in green.</p>
+    <sage>
+        <input>
+        def EigenVis2D(T):
+        if T.dimensions() != (2,2): raise Exception('Input must be a 2x2 matrix') #Tests for an appropriate matrix
+    
+        t = var('t') # Symbolic variable for parametric_plot
+        V = matrix([[n1, n2] for n1 in range(-5,6) for n2 in range(-5,6)]).transpose() #Creates a matrix of the vectors, as columns, undergoing transformation, these will be represented as dots
+        I = identity_matrix(2) 
+        if not M.eigenvectors_right()[0][0] in RealField():
+            print("Complex eigenvalues, unable to plot eigenvectors and eigenspaces.")
+            I_plot = list_plot(V.columns(), figsize=10)
+        else:
+            E_vectors = [vector for vector_list in [eigen_space[1] for eigen_space in T.eigenvectors_right()] for vector in vector_list ] # collects eigenvectors into a list E
+            I_plot = list_plot(V.columns(), figsize=10) + sum(parametric_plot(t*(e/e.norm()), (t, -7, 7), color='green') for e in E_vectors) + sum(plot(e, color='green',) for e in E_vectors)
+        # Display the numaric info about the transformation
+        %display latex
+        show(var('T'), " = ",T)
+        show("Eigen spaces: (Eigen Value, [Eigen Vectors], Eigen Space Rank)")
+        for e_space in T.eigenvectors_right(): show(e_space)
+        %display plain
+    
+        T = T - I
+        Frames = [ # All frames of the animation are collected into a list
+            I_plot + list_plot(((T*(n/30) + I)*V).columns(), color='red', ymin=-5, ymax=5, xmin=-5, xmax=5, figsize=6) for n in range(31)
+        ]
+
+        Frames = Frames + [Frames[-1]] * 16 # Padding extra end frames to make the animation stick to view the end of the transformaiton
+    
+        GIF = animate(Frames)
+        GIF.show(delay=10)
+        </input>
+    </sage>
+    <sage>
+        <input>
+            M = matrix([
+                    [1, 0],
+                    [0, 1]
+                    ])
+            EigenVis2D(M)
+        </input>
+    </sage>
+    <p>This sage block creates an interactive function where your manipulation of the matrix occurs immediately. The transformed basis vectors <m>e_1 , e_2</m> are shown as red arrows.</p>
+    <sage>
+        <input>
+        I_vecs = [[n, s*5] for n in range(-5,6) for s in [-1,1]]; I_vecs = matrix(I_vecs + [l[::-1] for l in I_vecs]).transpose()
+        I_plot = list_plot([I_vecs.columns()[0], I_vecs.columns()[1]], plotjoined=True)
+        for i in range(1, len(I_vecs.columns()) // 2):
+            I_plot = I_plot + list_plot([I_vecs.columns()[i*2], I_vecs.columns()[i*2 + 1]], plotjoined=True, ymin=-5, ymax=5, xmin=-5, xmax=5)
+        @interact
+        def _(a=slider(vmin=-5, vmax=5, default=1, step_size=1/2),
+            b=slider(vmin=-5, vmax=5, default=0, step_size=1/2),
+            c=slider(vmin=-5, vmax=5, default=0, step_size=1/2),
+            d=slider(vmin=-5, vmax=5, default=1, step_size=1/2)):
+            T = matrix(2,2, [a,b,c,d])
+            %display latex
+            show(var('T')," = ", T)
+            %display plain
+            TI = T*I_vecs
+            T_plot = list_plot([TI.columns()[0], TI.columns()[1]], plotjoined=True, color='red', figsize=5)
+            for i in range(1, len(TI.columns()) // 2):
+                T_plot = T_plot + list_plot([TI.columns()[i*2], TI.columns()[i*2 + 1]], plotjoined=True, color='red')
+            show(T_plot + I_plot + plot(T * vector((1,0)), color='red') + plot(T * vector((0,1)), color='red'))
+        </input>
+    </sage>
+</section>
